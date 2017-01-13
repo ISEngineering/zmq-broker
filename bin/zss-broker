@@ -7,10 +7,16 @@
     process.env.ZSS_CONFIG = __dirname.split("/").pop() + "/../config";
   }
 
+  var path = require('path');
+  var pidPath = path.join(__dirname, '../tmp/service.pid');
+  var pid = require('daemon-pid')(pidPath);
+
+  var fs = require('fs');
   var _ = require('lodash');
   var config = require('../config');
   var Logger = require('logger-facade-nodejs');
   var Broker = require('zmq-service-suite-broker');
+
 
   // configure console
   if(config.has('log.consolePlugin')) {
@@ -33,5 +39,25 @@
     Logger.use(plugin);
   }
 
-  broker.run();
+  pid.running(function(err, running) {
+    if (running) {
+      console.log('service is running as expected');
+    } else {
+      console.error('service is down!');
+
+      pid.delete(function(err) {
+        pid.write(function(err) {
+          if (err) {
+            console.log(err);
+            return;
+          }
+
+          console.log('starting service');
+          broker.run();
+        });
+      });
+
+    }
+  });
+
 })();
