@@ -1,5 +1,5 @@
 AS_USER="deploy"
-APP_DIR="/mnt/hdd2/deploy/zmq-broker"
+APP_DIR="/var/ise_service/zmq-broker"
 PID=`head -1 ${APP_DIR}/tmp/service.pid`
 RETVAL=0
 ZSS_ENV=production
