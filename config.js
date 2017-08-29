@@ -19,11 +19,11 @@
     broker: {
       backend: {
         doc: "The backend endpoint on broker",
-        default: "tcp://127.0.0.1:7776"
+        default: process.env.BACKEND || "tcp://0.0.0.0:7776"
       },
       frontend: {
         doc: "The frontend endpoint on broker",
-        default: "tcp://127.0.0.1:7777"
+        default: process.env.FRONTEND || "tcp://0.0.0.0:7777"
       },
       smi: {
         heartbeat: {
@@ -44,7 +44,7 @@
       consolePlugin: {
         level: {
           doc: "The Console log pluggin level",
-          default: 'info'
+          default: process.env.LOG_LEVEL || 'info'
         },
         timeFormat: {
           doc: "The Console log pluggin timeFormat",
