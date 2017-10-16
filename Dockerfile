@@ -6,7 +6,7 @@ ENV APP_HOME /broker_app
 RUN apk add --no-cache --virtual build-dependencies make gcc g++ python && \
   apk add --no-cache krb5-dev zeromq zeromq-dev
 
-RUN npm i node-gyp -g
+# RUN npm i node-gyp -g
 
 RUN mkdir $APP_HOME
 WORKDIR  $APP_HOME

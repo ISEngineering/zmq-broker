@@ -1,22 +1,26 @@
-broker:
-  build: .
-  command: bin/zss-broker start
-  volumes:
-    - .:/broker_app
-  ports:
-    - "7776"
-    - "7777:7777"
-  environment:
-    - LOG_LEVEL=debug
-    - BACKEND=tcp://0.0.0.0:7776
-    - FRONTEND=tcp://0.0.0.0:7777
-iafis1:
-  links:
-    - broker
-  image: dataserviceiafis_data_service
-  command: bin/zss-service-jruby start
-  environment:
-    - DS_NAMESPACE=iafis
-    - DS_BACKEND=tcp://broker:7776
-    - DS_FRONTEND=tcp://broker:7777
-    - DS_CONNECTION_STRING=jdbc:sapdb://iafis.net:7210/IAFISDB7?user=iafis&password=admin
+version: "3"
+
+services:
+  broker:
+    build: .
+    command: bin/zss-broker start
+    volumes:
+      - .:/broker_app
+    ports:
+      - "7776"
+      - "7779:7777"
+    environment:
+      - LOG_LEVEL=debug
+      - BACKEND=tcp://0.0.0.0:7776
+      - FRONTEND=tcp://0.0.0.0:7777
+      - TOKEN=asdsadfasdf123213
+  iafis1:
+    links:
+      - broker
+    image: dataserviceiafis_data_service
+    command: bin/zss-service-jruby start
+    environment:
+      - DS_NAMESPACE=iafis
+      - DS_BACKEND=tcp://broker:7776
+      - DS_FRONTEND=tcp://broker:7777
+      - DS_CONNECTION_STRING=jdbc:sapdb://iafis.net:7210/IAFISDB7?user=iafis&password=admin

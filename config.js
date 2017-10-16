@@ -17,6 +17,7 @@
       arg: "node-debug"
     },
     broker: {
+      token: process.env.TOKEN,
       backend: {
         doc: "The backend endpoint on broker",
         default: process.env.BACKEND || "tcp://0.0.0.0:7776"
